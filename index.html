@@ -13,13 +13,14 @@
       background-color: #ffe6f0;
       font-family: 'Roboto', sans-serif;
       text-align: center;
-      transition: background-color 2s ease;
+      transition: all 1s ease-in-out;
     }
 
     #question {
       margin-top: 80px;
       font-size: 2em;
       position: relative;
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
     }
 
     #question img {
@@ -34,7 +35,11 @@
       cursor: pointer;
       border-radius: 10px;
       border: none;
-      transition: 0.3s ease;
+      transition: all 0.3s ease-in-out;
+    }
+
+    button:hover {
+      transform: scale(1.1);
     }
 
     #yesBtn {
@@ -53,11 +58,17 @@
       font-size: 2em;
       color: #ff3399;
       display: none;
+      opacity: 0;
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      transform: scale(0.8);
     }
 
     #video {
       margin-top: 20px;
       display: none;
+      opacity: 0;
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      transform: scale(0.8);
     }
 
     video {
@@ -183,18 +194,27 @@
     }
 
     yesBtn.addEventListener('click', () => {
-      response.style.display = 'block';
-      videoWrapper.style.display = 'block';
-      video.currentTime = 50;
-      video.muted = false;
-      video.play();
-      confetti();
+      // Buton animasyonu
+      yesBtn.style.transform = 'scale(0)';
+      yesBtn.style.opacity = '0';
 
+      // Sayfa efekti
+      document.getElementById('question').style.opacity = '0';
+      document.getElementById('question').style.transform = 'scale(0.8)';
+      noBtn.style.opacity = '0';
+
+      // Cevap ve video animasyonu
       setTimeout(() => {
-        document.body.style.backgroundColor = "black";
-        document.getElementById('question').style.display = 'none';
-        document.getElementById('yesBtn').style.display = 'none';
-        document.getElementById('noBtn').style.display = 'none';
+        response.style.display = 'block';
+        videoWrapper.style.display = 'block';
+        response.style.opacity = '1';
+        response.style.transform = 'scale(1)';
+        videoWrapper.style.opacity = '1';
+        videoWrapper.style.transform = 'scale(1)';
+        video.currentTime = 50;
+        video.muted = false;
+        video.play();
+        confetti();
       }, 1000);
     });
 
@@ -206,7 +226,6 @@
     });
 
     video.addEventListener('play', () => {
-      // Kalp animasyonunu video başladıktan sonra devam ettir
       canvas.addEventListener('mousemove', addHeart);
       animate();
     });
